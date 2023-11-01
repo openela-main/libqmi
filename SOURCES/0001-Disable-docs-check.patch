@@ -1,0 +1,24 @@
+From b963eff93ec9f3c8d282ff1cd8f7b019f4aed82a Mon Sep 17 00:00:00 2001
+From: Lubomir Rintel <lkundrak@v3.sk>
+Date: Mon, 12 Dec 2022 07:43:29 +0100
+Subject: [PATCH] Disable docs check
+
+This fails if we're disabling qrtr.
+---
+ docs/reference/libqmi-glib/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/docs/reference/libqmi-glib/meson.build b/docs/reference/libqmi-glib/meson.build
+index c07454a..54b4262 100644
+--- a/docs/reference/libqmi-glib/meson.build
++++ b/docs/reference/libqmi-glib/meson.build
+@@ -77,5 +77,5 @@ gnome.gtkdoc(
+   fixxref_args: fixxref_args,
+   content_files: [sections_txt, version_xml],
+   install: true,
+-  check: true,
++  check: false,
+ )
+-- 
+2.38.1
+
