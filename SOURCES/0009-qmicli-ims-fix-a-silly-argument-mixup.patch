@@ -1,0 +1,37 @@
+From dadd1683067e13199a535cca71b5e3bc4029f056 Mon Sep 17 00:00:00 2001
+From: Lubomir Rintel <lkundrak@v3.sk>
+Date: Thu, 23 May 2024 10:51:14 +0200
+Subject: [PATCH 9/9] qmicli-ims: fix a silly argument mixup
+
+Possibly a cut'n'paste oversight or something.
+---
+ src/qmicli/qmicli-ims.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/qmicli/qmicli-ims.c b/src/qmicli/qmicli-ims.c
+index 880aeec7..b690597a 100644
+--- a/src/qmicli/qmicli-ims.c
++++ b/src/qmicli/qmicli-ims.c
+@@ -195,16 +195,16 @@ get_services_enabled_ready (QmiClientIms *client,
+     g_print ("[%s] IMS services:\n", qmi_device_get_path_display (ctx->device));
+ 
+     if (qmi_message_ims_get_ims_services_enabled_setting_output_get_ims_voice_service_enabled (output, &service_voice_enabled, NULL))
+-        g_print ("\t       IMS registration enabled: %s\n", service_ims_registration_enabled? "yes" : "no");
++        g_print ("\t          Voice service enabled: %s\n", service_voice_enabled? "yes" : "no");
+ 
+     if (qmi_message_ims_get_ims_services_enabled_setting_output_get_ims_video_telephony_service_enabled (output, &service_vt_enabled, NULL))
+-        g_print ("\t          Voice service enabled: %s\n", service_voice_enabled? "yes" : "no");
++        g_print ("\tVideo Telephony service enabled: %s\n", service_vt_enabled? "yes" : "no");
+ 
+     if (qmi_message_ims_get_ims_services_enabled_setting_output_get_ims_voice_wifi_service_enabled (output, &service_voice_wifi_enabled, NULL))
+         g_print ("\t     Voice WiFi service enabled: %s\n", service_voice_wifi_enabled? "yes" : "no");
+ 
+     if (qmi_message_ims_get_ims_services_enabled_setting_output_get_ims_registration_service_enabled (output, &service_ims_registration_enabled, NULL))
+-        g_print ("\tVideo Telephony service enabled: %s\n", service_vt_enabled? "yes" : "no");
++        g_print ("\t       IMS registration enabled: %s\n", service_ims_registration_enabled? "yes" : "no");
+  
+     if (qmi_message_ims_get_ims_services_enabled_setting_output_get_ims_ut_service_enabled (output, &service_ut_enabled, NULL))
+         g_print ("\t      UE to TAS service enabled: %s\n", service_ut_enabled? "yes" : "no");
+-- 
+2.45.2
+

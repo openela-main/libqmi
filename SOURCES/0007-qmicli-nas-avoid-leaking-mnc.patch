@@ -1,0 +1,24 @@
+From b68d1760f81377dcf807e969a78671f19af38993 Mon Sep 17 00:00:00 2001
+From: Lubomir Rintel <lkundrak@v3.sk>
+Date: Thu, 23 May 2024 10:25:45 +0200
+Subject: [PATCH 7/9] qmicli-nas: avoid leaking mnc
+
+---
+ src/qmicli/qmicli-nas.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/qmicli/qmicli-nas.c b/src/qmicli/qmicli-nas.c
+index c51a5b02..7f69bfb9 100644
+--- a/src/qmicli/qmicli-nas.c
++++ b/src/qmicli/qmicli-nas.c
+@@ -3837,6 +3837,7 @@ get_operator_name_ready (QmiClientNas *client,
+                      element->lac1,
+                      element->lac2,
+                      element->plmn_name_record_identifier);
++	    g_free(mnc);
+         }
+     }
+ 
+-- 
+2.45.2
+

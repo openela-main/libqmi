@@ -1,0 +1,52 @@
+From 71e28cdb5e203715f5b75ee2930faa0416579b3d Mon Sep 17 00:00:00 2001
+From: Lubomir Rintel <lkundrak@v3.sk>
+Date: Thu, 23 May 2024 10:33:46 +0200
+Subject: [PATCH 4/9] qmicli-dms: do not leak split[]
+
+In various places we fail to free up whatever g_strsplit() returned in
+error handling paths. Let's use automatic pointers in those cases.
+---
+ src/qmicli/qmicli-dms.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/src/qmicli/qmicli-dms.c b/src/qmicli/qmicli-dms.c
+index 8108f0a6..1bea9ad4 100644
+--- a/src/qmicli/qmicli-dms.c
++++ b/src/qmicli/qmicli-dms.c
+@@ -2070,14 +2070,13 @@ static QmiMessageDmsActivateManualInput *
+ activate_manual_input_create (const gchar *str)
+ {
+     QmiMessageDmsActivateManualInput *input;
+-    gchar **split;
++    g_auto(GStrv) split = NULL;
+     GError *error = NULL;
+     gulong split_1_int;
+ 
+     split = g_strsplit (str, ",", -1);
+     if (g_strv_length (split) != 4) {
+         g_printerr ("error: incorrect number of arguments given\n");
+-        g_strfreev (split);
+         return NULL;
+     }
+ 
+@@ -2103,7 +2102,6 @@ activate_manual_input_create (const gchar *str)
+         input = NULL;
+     }
+ 
+-    g_strfreev(split);
+     return input;
+ }
+ 
+@@ -3184,8 +3182,8 @@ get_stored_image (QmiClientDms *client,
+                   gpointer user_data)
+ {
+     GetStoredImageContext *operation_ctx;
++    g_auto(GStrv) split = NULL;
+     GTask *task;
+-    gchar **split;
+     guint i = 0;
+     gint modem_index = -1;
+     gint pri_index = -1;
+-- 
+2.45.2
+

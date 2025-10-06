@@ -1,0 +1,28 @@
+From a87202030adf1fc1c1082a20e778ca7eaf46bcca Mon Sep 17 00:00:00 2001
+From: Lubomir Rintel <lkundrak@v3.sk>
+Date: Thu, 23 May 2024 10:02:20 +0200
+Subject: [PATCH 1/9] test-fixture: assert the service type index fits into
+ service_info[]
+
+Largest QmiService is QMI_SERVICE_SSC=0x190 (400 dec) whereas
+service_info[] has 255 elements. This made a static analyzer
+frown. Make it happy again!
+---
+ src/libqmi-glib/test/test-fixture.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/libqmi-glib/test/test-fixture.c b/src/libqmi-glib/test/test-fixture.c
+index cfbc2b49..32049c67 100644
+--- a/src/libqmi-glib/test/test-fixture.c
++++ b/src/libqmi-glib/test/test-fixture.c
+@@ -51,6 +51,7 @@ device_allocate_client_ready (QmiDevice    *device,
+ 
+     service = qmi_client_get_service (client);
+     g_assert (service > QMI_SERVICE_CTL);
++    g_assert ((unsigned)service < G_N_ELEMENTS (fixture->service_info));
+     fixture->service_info[service].client = client;
+     fixture->service_info[service].transaction_id = 0x0001;
+     test_fixture_loop_stop (fixture);
+-- 
+2.45.2
+

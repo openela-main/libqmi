@@ -1,0 +1,28 @@
+From 489dde670fd2b5e6721876279dce03f3a4002d44 Mon Sep 17 00:00:00 2001
+From: Lubomir Rintel <lkundrak@v3.sk>
+Date: Thu, 23 May 2024 10:46:56 +0200
+Subject: [PATCH 2/9] swi-update: close the file handle even if it's zero
+
+Technically, zero is a perfectly fine file descriptor for open() to
+return in case the parent process feels frivolous and chooses to
+close stdin.
+---
+ utils/swi-update.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/swi-update.c b/utils/swi-update.c
+index 609c5baa..61cd71c9 100644
+--- a/utils/swi-update.c
++++ b/utils/swi-update.c
+@@ -867,7 +867,7 @@ static int download_image(int serfd, char *buf, const char *image)
+     fprintf(stderr, "\n");
+ 
+ out:
+-    if (imgfd > 0)
++    if (imgfd >= 0)
+         close(imgfd);
+     return ret;
+ }
+-- 
+2.45.2
+
