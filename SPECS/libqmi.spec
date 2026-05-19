@@ -1,6 +1,6 @@
 Name: libqmi
 Version: 1.34.0
-Release: 8%{?dist}
+Release: 9%{?dist}
 Summary: Support library to use the Qualcomm MSM Interface (QMI) protocol
 License: LGPL-2.1-or-later
 URL: http://freedesktop.org/software/libqmi
@@ -19,6 +19,7 @@ Patch6: 0006-qmicli-dms-do-not-leak-result-on-error.patch
 Patch7: 0007-qmicli-nas-avoid-leaking-mnc.patch
 Patch8: 0008-qmicli-pdc-avoid-leaking-file_contents.patch
 Patch9: 0009-qmicli-ims-fix-a-silly-argument-mixup.patch
+Patch10: 0010-build-build-doc-target-by-default-for-meson-1.7.0.patch
 
 BuildRequires: meson >= 0.53
 BuildRequires: gcc
@@ -109,6 +110,9 @@ cp -a src/qmicli/qmicli %{buildroot}%{_datadir}/bash-completion/completions/
 
 
 %changelog
+* Mon Dec 15 2025 Beniamino Galvani <bgalvani@redhat.com> - 1.34.0-9
+- Fix build with meson >= 1.7 (RHEL-133035)
+
 * Tue Oct 29 2024 Troy Dawson <tdawson@redhat.com> - 1.34.0-8
 - Bump release for October 2024 mass rebuild:
   Resolves: RHEL-64018
